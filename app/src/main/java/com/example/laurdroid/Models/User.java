@@ -16,13 +16,15 @@ public class User {
     @ColumnInfo(name = "email")
     private String email;
 
-    @ColumnInfo(name = "hash")
-    private String hash;
 
     @ColumnInfo(name = "hashedPass")
     private String hashedPass;
 
-
+    public User(String name, String email, String hashedPass){
+        this.name = name;
+        this.email = email;
+        this.hashedPass = hashedPass;
+    }
 
     // Getters and setters
 
@@ -50,13 +52,6 @@ public class User {
         this.email = email;
     }
 
-    public String getHash() {
-        return hash;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
 
     public String getHashedPass() {
         return hashedPass;

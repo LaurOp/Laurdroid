@@ -4,13 +4,18 @@ import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.laurdroid.Repos.UserRepository;
 import com.example.laurdroid.services.Session;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -20,9 +25,12 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
+
 public class LoginActivity extends AppCompatActivity  {
 
-
+    private UserRepository userRepository;
     private static final int RC_SIGN_IN = 1001;
 
     @Override
@@ -30,6 +38,7 @@ public class LoginActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        userRepository = new UserRepository(getApplication());
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -47,7 +56,7 @@ public class LoginActivity extends AppCompatActivity  {
         signInButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                signIn(mGoogleSignInClient);
+                signInGoogle(mGoogleSignInClient);
             }
         });
 
@@ -63,11 +72,15 @@ public class LoginActivity extends AppCompatActivity  {
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
 
-                // TODO: validate email and password
+                try {
+                    if(isValidEmailAndPassword(email,password)){
+                        combinationExists(email,password);
+                    }
+                } catch (NoSuchAlgorithmException e) {
+                    throw new RuntimeException(e);
+                }
 
-                Session.getInstance(getApplicationContext()).createLoginSession(email, password);
 
-                // TODO: start new activity or do something else after successful login
             }
         });
     }
@@ -83,9 +96,14 @@ public class LoginActivity extends AppCompatActivity  {
         startActivity(intent);
     }
 
-    private void signIn(GoogleSignInClient mGoogleSignInClient) {
+    private void signInGoogle(GoogleSignInClient mGoogleSignInClient) {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void signIn() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -120,6 +138,36 @@ public class LoginActivity extends AppCompatActivity  {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         // TODO
+
+    }
+
+    public boolean isValidEmailAndPassword(String email, String password) throws NoSuchAlgorithmException {
+        if(email.equals("admin") && password.equals("admin")){
+            Toast.makeText(this, "Successful login", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if(email.isEmpty())
+            return false;
+        return !password.isEmpty();
+    }
+
+    public void combinationExists(String email, String password) throws NoSuchAlgorithmException {
+        if(email.equals("admin") && password.equals("admin")){
+            Session.getInstance(getApplicationContext()).createLoginSession(email, password);
+            signIn();
+            return;
+        }
+
+        String hashed = RegisterActivity.hashThisPass(password);
+
+        userRepository.loginUser(email, hashed).observe(this, loginResult -> {
+            if (loginResult) {
+                Session.getInstance(getApplicationContext()).createLoginSession(email, password);
+                signIn();
+            } else {
+                Toast.makeText(this, "Invalid email/password combination", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 }

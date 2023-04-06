@@ -1,8 +1,10 @@
 package com.example.laurdroid.DAO;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.example.laurdroid.Models.User;
@@ -27,10 +29,17 @@ public interface UserDao {
     @Insert
     void insertAll(User... users);
 
-    @Insert
-    void insert(User user);
-
     @Delete
     void delete(User user);
+
+    @Query("DELETE FROM users WHERE id = :id")
+    void deleteById(int id);
+
+    @Query("SELECT * FROM users WHERE email = :email AND hashedPass = :hashedPass LIMIT 1")
+    LiveData<User> getUserByEmailAndPass(String email, String hashedPass);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(User user);
+
 }
 

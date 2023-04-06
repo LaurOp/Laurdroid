@@ -12,9 +12,13 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.laurdroid.DAO.UserDao;
 import com.example.laurdroid.Models.User;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Database(entities = {User.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
+    public static ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(4);
 
     private static AppDatabase INSTANCE;
 

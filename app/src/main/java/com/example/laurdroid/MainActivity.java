@@ -12,7 +12,7 @@ import com.example.laurdroid.services.Session;
 public class MainActivity extends AppCompatActivity {
 
     Session session;
-    AppDatabase appDatabase;
+    public static AppDatabase appDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
     }
+
     public void onRegisterButtonClick(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
