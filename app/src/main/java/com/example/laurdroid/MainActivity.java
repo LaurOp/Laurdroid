@@ -12,11 +12,12 @@ import com.example.laurdroid.services.Session;
 public class MainActivity extends AppCompatActivity {
 
     Session session;
+    AppDatabase appDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         session = Session.getInstance(getApplicationContext());
-
+        appDatabase = AppDatabase.getDatabase(getApplicationContext());
 
         if(session.isLoggedIn()){
             // user is already logged in, start new activity or do something else
