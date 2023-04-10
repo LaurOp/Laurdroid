@@ -7,12 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.laurdroid.Repos.UserRepository;
@@ -32,12 +34,14 @@ public class LoginActivity extends AppCompatActivity  {
 
     private UserRepository userRepository;
     private static final int RC_SIGN_IN = 2345;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         userRepository = new UserRepository(getApplication());
 
 
@@ -75,15 +79,36 @@ public class LoginActivity extends AppCompatActivity  {
     }
 
     public void onRegisterButtonClick(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
+
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+                progressBar.setVisibility(View.GONE);
+            }
+        }, 200);
+
     }
 
 
-    public void onLoginButtonClick(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
+//    public void onLoginButtonClick(View view) {
+//
+//
+//
+//        progressBar = findViewById(R.id.progressBar);
+//        progressBar.setVisibility(View.VISIBLE);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+//                startActivity(intent);
+//                progressBar.setVisibility(View.GONE);
+//            }
+//        }, 200);
+//    }
 
     private void signInGoogle() {
 
