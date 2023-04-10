@@ -31,7 +31,7 @@ import java.util.Objects;
 public class LoginActivity extends AppCompatActivity  {
 
     private UserRepository userRepository;
-    private static final int RC_SIGN_IN = 1001;
+    private static final int RC_SIGN_IN = 2345;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,23 +40,12 @@ public class LoginActivity extends AppCompatActivity  {
 
         userRepository = new UserRepository(getApplication());
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        // Build a GoogleSignInClient with the options specified by gso.
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        //updateUI(account);
 
         SignInButton signInButton = findViewById(R.id.Google_sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                signInGoogle(mGoogleSignInClient);
+                signInGoogle();
             }
         });
 
@@ -96,7 +85,24 @@ public class LoginActivity extends AppCompatActivity  {
         startActivity(intent);
     }
 
-    private void signInGoogle(GoogleSignInClient mGoogleSignInClient) {
+    private void signInGoogle() {
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        // Check for existing Google Sign In account, if the user is already signed in
+        // the GoogleSignInAccount will be non-null.
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        //updateUI(account);
+        if (account != null) {
+            String email = account.getEmail();
+            Toast.makeText(this, "Signed in as " + email, Toast.LENGTH_SHORT).show();
+        }
+
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -135,7 +141,7 @@ public class LoginActivity extends AppCompatActivity  {
 
 
     private void updateUI(GoogleSignInAccount account){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, DashboardActivity.class);
         startActivity(intent);
         // TODO
 
