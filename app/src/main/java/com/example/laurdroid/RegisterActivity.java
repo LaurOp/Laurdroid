@@ -32,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        //overridePendingTransition(R.anim.slide_out_left, R.anim.slide_out_right);
 
         userRepository = new UserRepository(getApplication());
 
@@ -80,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intent);
                 progressBar.setVisibility(View.GONE);
             }
-        }, 500);
+        }, 200);
     }
 
 

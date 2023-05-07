@@ -42,6 +42,8 @@ public class LoginActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_login);
 
         //overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
+
         userRepository = new UserRepository(getApplication());
 
 
@@ -133,7 +135,7 @@ public class LoginActivity extends AppCompatActivity  {
     }
 
     private void signIn() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, DashboardActivity.class);
         startActivity(intent);
     }
 
@@ -166,9 +168,14 @@ public class LoginActivity extends AppCompatActivity  {
 
 
     private void updateUI(GoogleSignInAccount account){
-        Intent intent = new Intent(this, DashboardActivity.class);
-        startActivity(intent);
-        // TODO
+
+        if(account!=null){
+            Intent intent = new Intent(this, DashboardActivity.class);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
 
     }
 

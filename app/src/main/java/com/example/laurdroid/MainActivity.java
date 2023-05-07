@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         session = Session.getInstance(getApplicationContext());
         appDatabase = AppDatabase.getDatabase(getApplicationContext());
 
-        //overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        //TODO overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
 
 

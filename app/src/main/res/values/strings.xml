@@ -20,4 +20,9 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="sign_out">Sign out</string>
+    <string name="element_text">InsideView</string>
+    <string name="my_gallery">My gallery</string>
+    <string name="popular_movies">Popular movies</string>
+    <string name="top_rated_movies">Top rated movies</string>
+    <string name="random_movie">Random movie</string>
 </resources>
