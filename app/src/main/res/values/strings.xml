@@ -27,4 +27,6 @@
     <string name="random_movie">Random movie</string>
     <string name="take_photo">Take Photo</string>
     <string name="welcomeName">Welcome, %s</string>
+    <string name="detailsURL">https://api.themoviedb.org/3/movie/%d?api_key=%s&amp;language=en-US</string>
+    <string name="popularURL">https://api.themoviedb.org/3/movie/popular?api_key=%s&amp;language=en-US&amp;page=1</string>
 </resources>

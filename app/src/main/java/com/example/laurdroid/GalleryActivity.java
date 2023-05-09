@@ -5,10 +5,8 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -20,20 +18,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Gallery;
 
-import com.example.laurdroid.DAO.GalleryImageDAO;
 import com.example.laurdroid.Models.GalleryImage;
 import com.example.laurdroid.Repos.GalleryRepo;
-import com.example.laurdroid.services.GalleryItemAdapter;
+import com.example.laurdroid.ViewAux.GalleryItemAdapter;
 
 public class GalleryActivity extends AppCompatActivity {
 

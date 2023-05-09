@@ -1,4 +1,4 @@
-package com.example.laurdroid.services;
+package com.example.laurdroid.ViewAux;
 
 import android.content.Context;
 import android.view.LayoutInflater;
