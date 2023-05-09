@@ -15,10 +15,10 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapter.MovieViewHolder> {
-    private List<PopularMovie> movieList;
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
+    private List<Movie> movieList;
 
-    public PopularMovieAdapter(List<PopularMovie> movieList) {
+    public MovieAdapter(List<Movie> movieList) {
         this.movieList = movieList;
     }
 
@@ -31,7 +31,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        PopularMovie movie = movieList.get(position);
+        Movie movie = movieList.get(position);
         holder.title.setText(movie.getTitle());
         holder.releaseDate.setText(movie.getReleaseDate());
         holder.voteAverage.setText(String.valueOf(movie.getVoteAverage()));

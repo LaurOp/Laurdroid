@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.laurdroid.ViewAux.PopularMovie;
-import com.example.laurdroid.ViewAux.PopularMovieAdapter;
+import com.example.laurdroid.ViewAux.Movie;
+import com.example.laurdroid.ViewAux.MovieAdapter;
 import com.example.laurdroid.services.MoviesAPI;
 
 import org.json.JSONArray;
@@ -39,7 +39,7 @@ public class PopularMoviesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popular_movies);
 
-        List<PopularMovie> movieList = new ArrayList<>();
+        List<Movie> movieList = new ArrayList<>();
 
         String apiKey = moviesAPI.getApiKey();
         String apiUrl = getString(R.string.popularURL, apiKey);
@@ -88,7 +88,7 @@ public class PopularMoviesActivity extends AppCompatActivity {
                     movieFields.put("vote_average", voteAverage);
                     movieFields.put("release_date", releaseDate);
 
-                    PopularMovie popularMovie = new PopularMovie(title, voteAverage, releaseDate);
+                    Movie popularMovie = new Movie(title, voteAverage, releaseDate);
                     // Add the new JSON object to the movie list
                     movieList.add(popularMovie);
                 }
@@ -96,7 +96,7 @@ public class PopularMoviesActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     RecyclerView recyclerView = findViewById(R.id.movie_list);
                     recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                    PopularMovieAdapter adapter = new PopularMovieAdapter(movieList);
+                    MovieAdapter adapter = new MovieAdapter(movieList);
                     recyclerView.setLayoutManager(new LinearLayoutManager(PopularMoviesActivity.this));
                     recyclerView.setAdapter(adapter);
                 });

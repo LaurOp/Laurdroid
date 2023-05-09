@@ -6,10 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".GalleryActivity">
 
+
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/headerFragment"
+            android:name="com.example.laurdroid.ViewAux.HeaderFragment"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout="@layout/fragment_header" />
 
         <Button
             android:id="@+id/camera_button"
@@ -22,7 +31,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/headerFragment"
+            />
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,11 @@
 package com.example.laurdroid.ViewAux;
 
-public class PopularMovie {
+public class Movie {
     private String title;
     private double voteAverage;
     private String releaseDate;
 
-    public PopularMovie(String title, double voteAverage, String releaseDate) {
+    public Movie(String title, double voteAverage, String releaseDate) {
         this.title = title;
         this.voteAverage = voteAverage;
         this.releaseDate = releaseDate;

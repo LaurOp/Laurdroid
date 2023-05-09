@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.laurdroid.ViewAux.HeaderFragment;
 import com.example.laurdroid.services.MoviesAPI;
 import com.example.laurdroid.services.Session;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -36,6 +38,14 @@ public class DashboardActivity extends AppCompatActivity {
 
         TextView welcomeText = findViewById(R.id.welcomeNameText);
         welcomeText.setText(getString(R.string.welcomeName , username));
+
+        HeaderFragment headerFragment = (HeaderFragment) getSupportFragmentManager().findFragmentById(R.id.headerFragment);
+        if (headerFragment != null) {
+            ImageButton signOutButton = headerFragment.getView().findViewById(R.id.signOutHeaderButton);
+            if (signOutButton != null) {
+                signOutButton.setVisibility(View.GONE);
+            }
+        }
 
         Log.v("Welcome", "user is "+username);
         Log.v("Welcome", "email is "+email);
