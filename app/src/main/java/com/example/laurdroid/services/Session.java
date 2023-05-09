@@ -2,6 +2,7 @@ package com.example.laurdroid.services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class Session {
     private static Session instance = null;
@@ -21,6 +22,10 @@ public class Session {
         editor = prefs.edit();
     }
 
+    public String getEmailFromPrefs(){
+        return prefs.getString("email", "ERROR");
+    }
+
     public static Session getInstance(Context context) {
         if (instance == null) {
             instance = new Session(context);
@@ -33,6 +38,8 @@ public class Session {
         editor.putString(email, emaill);
         editor.putString(pass, password);
         editor.commit();
+        //Log.v("Session","Created session "+emaill + password);
+        //Log.v("Session","Prefs in session "+prefs.getString("email", "") + prefs.getString("password", ""));
     }
 
     public boolean isLoggedIn(){

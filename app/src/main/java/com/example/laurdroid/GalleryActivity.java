@@ -116,7 +116,10 @@ public class GalleryActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             String imagePath = photoFile.getAbsolutePath();
-            imagePathList.add(imagePath);
+            // imagePathList.add(imagePath);
+
+            GalleryImage image = new GalleryImage(imagePath);
+            galleryRepo.insertImage(image);
 
             // Update the RecyclerView adapter
             RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -124,8 +127,6 @@ public class GalleryActivity extends AppCompatActivity {
             assert adapter != null;
             adapter.addImage(imagePath);
 
-            GalleryImage image = new GalleryImage(imagePath);
-            galleryRepo.insertImage(image);
         }
     }
 
