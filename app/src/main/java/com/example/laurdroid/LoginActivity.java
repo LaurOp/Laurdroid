@@ -157,6 +157,8 @@ public class LoginActivity extends AppCompatActivity  {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
+
+            Session.getInstance(getApplicationContext()).createLoginSession(account.getEmail(), "");
             updateUI(account);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
