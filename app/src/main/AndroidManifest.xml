@@ -4,6 +4,8 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -30,6 +32,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Laurdroid">
+
         <activity
             android:name=".GalleryActivity"
             android:exported="false" />
@@ -70,6 +73,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <receiver android:name=".services.NotificationReceiver" />
     </application>
 
 </manifest>
