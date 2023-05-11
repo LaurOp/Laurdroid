@@ -1,4 +1,4 @@
-package com.example.laurdroid.ViewAux;
+package com.example.laurdroid.ViewAuxiliaries;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,8 +14,8 @@ import java.util.List;
 
 public class GalleryItemAdapter extends RecyclerView.Adapter<GalleryItemAdapter.ImageViewHolder> {
 
-    private Context mContext;
-    private List<String> mImagePathList;
+    private final Context mContext;
+    private final List<String> mImagePathList;
 
     public GalleryItemAdapter(Context context, List<String> imagePathList) {
         mContext = context;
@@ -35,7 +35,6 @@ public class GalleryItemAdapter extends RecyclerView.Adapter<GalleryItemAdapter.
         Glide.with(mContext).load(imagePath).into(holder.imageView);
     }
 
-    // add this method to implement the abstract method in RecyclerView.Adapter
     @Override
     public void onBindViewHolder(@NonNull GalleryItemAdapter.ImageViewHolder holder, int position, @NonNull List<Object> payloads) {
         super.onBindViewHolder(holder, position, payloads);

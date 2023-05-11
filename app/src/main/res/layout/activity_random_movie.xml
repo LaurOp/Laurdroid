@@ -16,7 +16,7 @@
 
         <fragment
             android:id="@+id/headerFragment"
-            android:name="com.example.laurdroid.ViewAux.HeaderFragment"
+            android:name="com.example.laurdroid.ViewAuxiliaries.HeaderFragment"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_constraintTop_toTopOf="parent"

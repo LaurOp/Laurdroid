@@ -34,28 +34,28 @@
         android:theme="@style/Theme.Laurdroid">
 
         <activity
-            android:name=".GalleryActivity"
+            android:name=".Activities.GalleryActivity"
             android:exported="false" />
         <activity
-            android:name=".TopRatedActivity"
+            android:name=".Activities.TopRatedActivity"
             android:exported="false" />
         <activity
-            android:name=".RandomMovieActivity"
+            android:name=".Activities.RandomMovieActivity"
             android:exported="false" />
         <activity
-            android:name=".PopularMoviesActivity"
+            android:name=".Activities.PopularMoviesActivity"
             android:exported="false" />
         <activity
-            android:name=".DashboardActivity"
+            android:name=".Activities.DashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

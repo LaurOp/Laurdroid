@@ -1,4 +1,4 @@
-package com.example.laurdroid.ViewAux;
+package com.example.laurdroid.ViewAuxiliaries;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
-    private List<Movie> movieList;
+    private final List<Movie> movieList;
 
     public MovieAdapter(List<Movie> movieList) {
         this.movieList = movieList;

@@ -1,4 +1,4 @@
-package com.example.laurdroid.ViewAux;
+package com.example.laurdroid.ViewAuxiliaries;
 
 import java.util.List;
 
@@ -19,7 +19,6 @@ public class MovieDetailed {
         this.genres = genres;
     }
 
-    // getters and setters
     public String getTitle() {
         return title;
     }

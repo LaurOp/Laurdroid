@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.laurdroid.AppDatabase;
+import com.example.laurdroid.services.AppDatabase;
 import com.example.laurdroid.DAO.GalleryImageDAO;
 import com.example.laurdroid.Models.GalleryImage;
 
@@ -14,7 +14,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class GalleryRepo {
-    private GalleryImageDAO galleryImageDAO;
+    private final GalleryImageDAO galleryImageDAO;
 
     public GalleryRepo(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
@@ -39,7 +39,6 @@ public class GalleryRepo {
         return imagesLiveData;
     }
 
-    // Listener interface for getting images from the database
     public interface OnImagesLoadedListener {
         void onImagesLoaded(List<GalleryImage> images);
     }

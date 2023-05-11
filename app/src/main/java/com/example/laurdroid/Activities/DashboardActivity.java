@@ -1,6 +1,5 @@
-package com.example.laurdroid;
+package com.example.laurdroid.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
@@ -9,9 +8,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Movie;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,18 +16,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.laurdroid.ViewAux.HeaderFragment;
+import com.example.laurdroid.R;
+import com.example.laurdroid.ViewAuxiliaries.HeaderFragment;
 import com.example.laurdroid.services.MoviesAPI;
 import com.example.laurdroid.services.NotificationReceiver;
 import com.example.laurdroid.services.Session;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 public class DashboardActivity extends AppCompatActivity {
-
-    private MoviesAPI moviesAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +41,7 @@ public class DashboardActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intentNotif = new Intent(this, NotificationReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intentNotif, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 5 * 1000, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60 * 1000, pendingIntent); // *60 minute, *60*60 hour
 
 
         String email = Session.getInstance(getApplicationContext()).getEmailFromPrefs();
@@ -61,10 +54,13 @@ public class DashboardActivity extends AppCompatActivity {
 
         HeaderFragment headerFragment = (HeaderFragment) getSupportFragmentManager().findFragmentById(R.id.headerFragment);
         if (headerFragment != null) {
-            ImageButton signOutButton = headerFragment.getView().findViewById(R.id.signOutHeaderButton);
-            if (signOutButton != null) {
-                signOutButton.setVisibility(View.GONE);
+            try{
+                ImageButton signOutButton = headerFragment.getView().findViewById(R.id.signOutHeaderButton);
+                signOutButton.setVisibility(View.GONE);}
+            catch (Exception e){
+                e.printStackTrace();
             }
+
         }
 
         Log.v("Welcome", "user is "+username);

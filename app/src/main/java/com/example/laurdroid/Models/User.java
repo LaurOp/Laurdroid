@@ -26,8 +26,6 @@ public class User {
         this.hashedPass = hashedPass;
     }
 
-    // Getters and setters
-
     public int getId() {
         return id;
     }

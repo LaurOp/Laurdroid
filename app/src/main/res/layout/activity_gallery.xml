@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GalleryActivity">
+    tools:context=".Activities.GalleryActivity">
 
 
     <FrameLayout
@@ -14,7 +14,7 @@
 
         <fragment
             android:id="@+id/headerFragment"
-            android:name="com.example.laurdroid.ViewAux.HeaderFragment"
+            android:name="com.example.laurdroid.ViewAuxiliaries.HeaderFragment"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_constraintTop_toTopOf="parent"

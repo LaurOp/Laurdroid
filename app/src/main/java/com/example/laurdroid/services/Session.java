@@ -6,10 +6,10 @@ import android.util.Log;
 
 public class Session {
     private static Session instance = null;
-    private SharedPreferences prefs;
-    private SharedPreferences.Editor editor;
-    private Context _context;
-    private int isprivate = 0;
+    private final SharedPreferences prefs;
+    private final SharedPreferences.Editor editor;
+    private final Context _context;
+    private final int isprivate = 0;
 
     private static final String sessionPref = "sessionPref";
     private static final String loggedIn = "IsLoggedIn";

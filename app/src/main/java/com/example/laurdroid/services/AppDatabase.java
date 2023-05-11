@@ -1,4 +1,4 @@
-package com.example.laurdroid;
+package com.example.laurdroid.services;
 
 
 import android.content.Context;
@@ -43,13 +43,11 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            // Handle onCreate event
         }
 
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
-            // Handle onOpen event
         }
     }
 }

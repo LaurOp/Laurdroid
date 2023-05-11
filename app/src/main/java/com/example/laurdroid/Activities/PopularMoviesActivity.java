@@ -1,4 +1,4 @@
-package com.example.laurdroid;
+package com.example.laurdroid.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.laurdroid.ViewAux.Movie;
-import com.example.laurdroid.ViewAux.MovieAdapter;
+import com.example.laurdroid.R;
+import com.example.laurdroid.ViewAuxiliaries.Movie;
+import com.example.laurdroid.ViewAuxiliaries.MovieAdapter;
 import com.example.laurdroid.services.MoviesAPI;
 
 import org.json.JSONArray;
@@ -26,23 +27,20 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class TopRatedActivity extends AppCompatActivity {
+public class PopularMoviesActivity extends AppCompatActivity {
 
-    private MoviesAPI moviesAPI;
-
-    public TopRatedActivity(){
-        moviesAPI = new MoviesAPI();
+    public PopularMoviesActivity(){
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_top_rated);
+        setContentView(R.layout.activity_popular_movies);
 
         List<Movie> movieList = new ArrayList<>();
 
-        String apiKey = moviesAPI.getApiKey();
-        String apiUrl = getString(R.string.topRatedURL, apiKey);
+        String apiKey = MoviesAPI.getApiKey();
+        String apiUrl = getString(R.string.popularURL, apiKey);
 
         Log.v("API", apiUrl);
 
@@ -77,19 +75,16 @@ public class TopRatedActivity extends AppCompatActivity {
                 for (int i = 0; i < results.length(); i++) {
                     JSONObject movie = results.getJSONObject(i);
 
-                    // Extract required fields from each movie JSON object
                     String title = movie.getString("title");
                     Double voteAverage = movie.getDouble("vote_average");
                     String releaseDate = movie.getString("release_date");
 
-                    // Create a new JSON object to store the extracted fields
                     JSONObject movieFields = new JSONObject();
                     movieFields.put("title", title);
                     movieFields.put("vote_average", voteAverage);
                     movieFields.put("release_date", releaseDate);
 
                     Movie popularMovie = new Movie(title, voteAverage, releaseDate);
-                    // Add the new JSON object to the movie list
                     movieList.add(popularMovie);
                 }
 
@@ -97,7 +92,7 @@ public class TopRatedActivity extends AppCompatActivity {
                     RecyclerView recyclerView = findViewById(R.id.movie_list);
                     recyclerView.setLayoutManager(new LinearLayoutManager(this));
                     MovieAdapter adapter = new MovieAdapter(movieList);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(TopRatedActivity.this));
+                    recyclerView.setLayoutManager(new LinearLayoutManager(PopularMoviesActivity.this));
                     recyclerView.setAdapter(adapter);
                 });
 
@@ -107,9 +102,6 @@ public class TopRatedActivity extends AppCompatActivity {
         });
 
         executor.shutdown();
-
-
-
 
     }
 

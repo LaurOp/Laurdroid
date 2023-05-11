@@ -1,17 +1,17 @@
-package com.example.laurdroid;
+package com.example.laurdroid.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.laurdroid.ViewAux.MovieDetailed;
+import com.example.laurdroid.R;
+import com.example.laurdroid.ViewAuxiliaries.MovieDetailed;
 import com.example.laurdroid.services.MoviesAPI;
 
 import org.json.JSONArray;
@@ -30,19 +30,14 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class RandomMovieActivity extends AppCompatActivity {
 
-    private MoviesAPI moviesAPI;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_random_movie);
 
-        moviesAPI = new MoviesAPI();
-
         generateMovie().thenAccept(movie -> {
             View movieDetailView = findViewById(R.id.movie_detail_layout);
 
-            // Get the views in the layout
             TextView titleTextView = movieDetailView.findViewById(R.id.titleTextView);
             TextView releaseDateTextView = movieDetailView.findViewById(R.id.releaseDateTextView);
             TextView voteAverageTextView = movieDetailView.findViewById(R.id.voteAverageTextView);
@@ -51,6 +46,8 @@ public class RandomMovieActivity extends AppCompatActivity {
             TextView genresTextView = movieDetailView.findViewById(R.id.genreTextView);
 
             runOnUiThread(() -> {
+
+                Log.v("API", movie.toString());
                 titleTextView.setText(movie.getTitle());
                 releaseDateTextView.setText(getString(R.string.randomReleaseDate, movie.getReleaseDate()));
                 voteAverageTextView.setText(getString(R.string.randomVoteAverage, String.valueOf(movie.getVoteAverage())));
@@ -65,13 +62,10 @@ public class RandomMovieActivity extends AppCompatActivity {
 
 
         Button regenerateButton = findViewById(R.id.regenerateButton);
-        regenerateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
-            }
+        regenerateButton.setOnClickListener(v -> {
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
         });
 
     }
@@ -81,7 +75,7 @@ public class RandomMovieActivity extends AppCompatActivity {
         Random random = new Random();
         int randomNumber = random.nextInt(10000) + 1;
 
-        String apiKey = moviesAPI.getApiKey();
+        String apiKey = MoviesAPI.getApiKey();
         AtomicReference<String> apiUrl = new AtomicReference<>(getString(R.string.randomURL, randomNumber, apiKey));
 
         return CompletableFuture.supplyAsync(() -> {

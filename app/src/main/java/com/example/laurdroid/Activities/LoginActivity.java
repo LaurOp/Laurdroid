@@ -1,22 +1,20 @@
-package com.example.laurdroid;
+package com.example.laurdroid.Activities;
 
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.laurdroid.R;
 import com.example.laurdroid.Repos.UserRepository;
 import com.example.laurdroid.services.Session;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -28,7 +26,6 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity  {
 
@@ -41,19 +38,11 @@ public class LoginActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-
-
         userRepository = new UserRepository(getApplication());
 
 
         SignInButton signInButton = findViewById(R.id.Google_sign_in_button);
-        signInButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                signInGoogle();
-            }
-        });
+        signInButton.setOnClickListener(view -> signInGoogle());
 
 
 
@@ -61,22 +50,19 @@ public class LoginActivity extends AppCompatActivity  {
         EditText passwordEditText = findViewById(R.id.passwordEditText);
         Button loginButton = findViewById(R.id.loginButton);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
+        loginButton.setOnClickListener(v -> {
+            String email = emailEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
 
-                try {
-                    if(isValidEmailAndPassword(email,password)){
-                        combinationExists(email,password);
-                    }
-                } catch (NoSuchAlgorithmException e) {
-                    throw new RuntimeException(e);
+            try {
+                if(isValidEmailAndPassword(email,password)){
+                    combinationExists(email,password);
                 }
-
-
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
             }
+
+
         });
     }
 
@@ -84,33 +70,13 @@ public class LoginActivity extends AppCompatActivity  {
 
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-                progressBar.setVisibility(View.GONE);
-            }
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+            progressBar.setVisibility(View.GONE);
         }, 200);
 
     }
-
-
-//    public void onLoginButtonClick(View view) {
-//
-//
-//
-//        progressBar = findViewById(R.id.progressBar);
-//        progressBar.setVisibility(View.VISIBLE);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
-//                startActivity(intent);
-//                progressBar.setVisibility(View.GONE);
-//            }
-//        }, 200);
-//    }
 
     private void signInGoogle() {
 
@@ -118,13 +84,10 @@ public class LoginActivity extends AppCompatActivity  {
                 .requestEmail()
                 .build();
 
-        // Build a GoogleSignInClient with the options specified by gso.
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        //updateUI(account);
+
         if (account != null) {
             String email = account.getEmail();
             Toast.makeText(this, "Signed in as " + email, Toast.LENGTH_SHORT).show();
@@ -143,10 +106,7 @@ public class LoginActivity extends AppCompatActivity  {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
@@ -156,13 +116,9 @@ public class LoginActivity extends AppCompatActivity  {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
-            // Signed in successfully, show authenticated UI.
-
             Session.getInstance(getApplicationContext()).createLoginSession(account.getEmail(), "");
             updateUI(account);
         } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
             updateUI(null);
         }
@@ -171,13 +127,13 @@ public class LoginActivity extends AppCompatActivity  {
 
     private void updateUI(GoogleSignInAccount account){
 
+        Intent intent;
         if(account!=null){
-            Intent intent = new Intent(this, DashboardActivity.class);
-            startActivity(intent);
+            intent = new Intent(this, DashboardActivity.class);
         }else{
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
+            intent = new Intent(this, LoginActivity.class);
         }
+        startActivity(intent);
 
     }
 

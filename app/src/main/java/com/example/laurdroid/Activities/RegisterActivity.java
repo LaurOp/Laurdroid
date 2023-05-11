@@ -1,4 +1,4 @@
-package com.example.laurdroid;
+package com.example.laurdroid.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,10 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.laurdroid.Models.User;
+import com.example.laurdroid.R;
 import com.example.laurdroid.Repos.UserRepository;
 import com.example.laurdroid.services.Session;
-
-import org.w3c.dom.Text;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -32,8 +31,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //overridePendingTransition(R.anim.slide_out_left, R.anim.slide_out_right);
-
         userRepository = new UserRepository(getApplication());
 
         EditText nameEditText = findViewById(R.id.edit_text_name);
@@ -41,62 +38,47 @@ public class RegisterActivity extends AppCompatActivity {
         EditText passwordEditText = findViewById(R.id.edit_text_password);
         Button registerButton = findViewById(R.id.button_register);
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name =nameEditText.getText().toString();
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
+        registerButton.setOnClickListener(v -> {
+            String name =nameEditText.getText().toString();
+            String email = emailEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
 
-                if(isValidNameEmailAndPassword(name, email, password)) {
-                    Session.getInstance(getApplicationContext()).createLoginSession(email, password);
-                    try {
-                        register(name, email, password);
-                    } catch (NoSuchAlgorithmException e) {
-                        throw new RuntimeException(e);
-                    }
+            if(isValidNameEmailAndPassword(name, email, password)) {
+                Session.getInstance(getApplicationContext()).createLoginSession(email, password);
+                try {
+                    register(name, email, password);
+                } catch (NoSuchAlgorithmException e) {
+                    throw new RuntimeException(e);
                 }
-
             }
+
         });
     }
-
-
-//    public void onRegisterButtonClick(View view) {
-//        Intent intent = new Intent(this, RegisterActivity.class);
-//        startActivity(intent);
-//    }
-
 
     public void onLoginButtonClick(View view) {
 
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         progressBar.bringToFront();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
-                progressBar.setVisibility(View.GONE);
-            }
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+            progressBar.setVisibility(View.GONE);
         }, 200);
     }
 
 
     public boolean isValidNameEmailAndPassword(String name, String email, String password) {
-        //TODO check if mail available
         if(TextUtils.isEmpty(name)){
             Toast.makeText(getApplicationContext(), "Please enter a valid name", Toast.LENGTH_SHORT).show();
             return false;
         }
-        // Email validation
+
         if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             Toast.makeText(getApplicationContext(), "Please enter a valid email address", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        // Password validation
         if (TextUtils.isEmpty(password) || password.length() < 8) {
             Toast.makeText(getApplicationContext(), "Please enter a valid password (at least 8 characters)", Toast.LENGTH_SHORT).show();
             return false;

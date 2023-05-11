@@ -1,4 +1,4 @@
-package com.example.laurdroid;
+package com.example.laurdroid.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -25,8 +25,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.laurdroid.Models.GalleryImage;
+import com.example.laurdroid.R;
 import com.example.laurdroid.Repos.GalleryRepo;
-import com.example.laurdroid.ViewAux.GalleryItemAdapter;
+import com.example.laurdroid.ViewAuxiliaries.GalleryItemAdapter;
 
 public class GalleryActivity extends AppCompatActivity {
 
@@ -39,22 +40,16 @@ public class GalleryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
-        GalleryRepo.OnImagesLoadedListener listener = new GalleryRepo.OnImagesLoadedListener() {
-            @Override
-            public void onImagesLoaded(List<GalleryImage> images) {
-            }
-        };
+        GalleryRepo.OnImagesLoadedListener listener = images -> {};
 
         galleryRepo = new GalleryRepo(getApplication());
         galleryRepo.getAllImages(listener).observe(this, result ->{
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                imagePathList = result.stream().map(GalleryImage::getPath).collect(Collectors.toList());
+            imagePathList = result.stream().map(GalleryImage::getPath).collect(Collectors.toList());
 
-                GalleryItemAdapter adapter = new GalleryItemAdapter(GalleryActivity.this, imagePathList);
-                RecyclerView recyclerView = findViewById(R.id.recycler_view);
-                recyclerView.setLayoutManager(new LinearLayoutManager(GalleryActivity.this));
-                recyclerView.setAdapter(adapter);
-            }
+            GalleryItemAdapter adapter = new GalleryItemAdapter(GalleryActivity.this, imagePathList);
+            RecyclerView recyclerView = findViewById(R.id.recycler_view);
+            recyclerView.setLayoutManager(new LinearLayoutManager(GalleryActivity.this));
+            recyclerView.setAdapter(adapter);
         });
 
         GalleryItemAdapter adapter = new GalleryItemAdapter(this, imagePathList);
@@ -64,33 +59,28 @@ public class GalleryActivity extends AppCompatActivity {
 
 
         Button cameraButton = findViewById(R.id.camera_button);
-        cameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open the camera app
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    try {
-                        Log.v("Camera", "in try1");
-                        photoFile = createImageFile();
-                        Log.v("Camera", "in try2");
-                    } catch (IOException ex) {
-                        Log.v("Camera", "in catch");
-                    }
-                    if (photoFile != null) {
-                        Uri photoURI = FileProvider.getUriForFile(GalleryActivity.this, "com.example.android.fileprovider", photoFile);
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                    }
+        cameraButton.setOnClickListener(v -> {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                try {
+                    Log.v("Camera", "in try1");
+                    photoFile = createImageFile();
+                    Log.v("Camera", "in try2");
+                } catch (IOException ex) {
+                    Log.v("Camera", "in catch");
                 }
-                else{
-                    Log.e("Camera","failed to open");
+                if (photoFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(GalleryActivity.this, "com.example.android.fileprovider", photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
+            }
+            else{
+                Log.e("Camera","failed to open");
             }
         });
     }
 
-    // Create a file to save the captured image
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
@@ -103,18 +93,15 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
 
-    // Handle the captured image
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             String imagePath = photoFile.getAbsolutePath();
-            // imagePathList.add(imagePath);
 
             GalleryImage image = new GalleryImage(imagePath);
             galleryRepo.insertImage(image);
 
-            // Update the RecyclerView adapter
             RecyclerView recyclerView = findViewById(R.id.recycler_view);
             GalleryItemAdapter adapter = (GalleryItemAdapter) recyclerView.getAdapter();
             assert adapter != null;

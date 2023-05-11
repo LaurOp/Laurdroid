@@ -24,13 +24,10 @@ import javax.crypto.SecretKey;
 public class MoviesAPI {
 
     public MoviesAPI(){
-
     }
 
-    public String getApiKey(){
+    public static String getApiKey(){
         return "49d8a5ab8851e0743364d9db494cac36";
     }
-
-
 
 }
