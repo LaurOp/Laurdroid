@@ -1,4 +1,4 @@
-package com.example.laurdroid.ViewAuxiliaries;
+package com.example.laurdroid.Models;
 
 import java.util.List;
 

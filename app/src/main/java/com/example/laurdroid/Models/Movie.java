@@ -1,4 +1,4 @@
-package com.example.laurdroid.ViewAuxiliaries;
+package com.example.laurdroid.Models;
 
 public class Movie {
     private String title;

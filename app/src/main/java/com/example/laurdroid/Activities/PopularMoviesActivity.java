@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.laurdroid.R;
-import com.example.laurdroid.ViewAuxiliaries.Movie;
+import com.example.laurdroid.Models.Movie;
 import com.example.laurdroid.ViewAuxiliaries.MovieAdapter;
 import com.example.laurdroid.services.MoviesAPI;
 

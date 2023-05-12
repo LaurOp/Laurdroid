@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.laurdroid.R;
-import com.example.laurdroid.ViewAuxiliaries.MovieDetailed;
+import com.example.laurdroid.Models.MovieDetailed;
 import com.example.laurdroid.services.MoviesAPI;
 
 import org.json.JSONArray;
